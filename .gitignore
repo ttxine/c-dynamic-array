@@ -1,0 +1,11 @@
+.vs/
+.idea/
+.vscode/
+
+*.o
+*.elf
+
+*.out
+*.exe
+
+arraylist
