@@ -1,51 +1,65 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "arraylist.h"
 
+DEFINE_ARRAY_LIST_APPEND(append_int, int);
+DEFINE_ARRAY_LIST_GET(get_int, int);
+DEFINE_ARRAY_LIST_INSERT(insert_int, int);
+DEFINE_ARRAY_LIST_POP(pop_int, int);
+DEFINE_ARRAY_LIST_REMOVE(remove_int, int);
+
 int main() {
-    ArrayList* array_list = array_list_create(2);
+    ArrayList* array_list;
+    int is_appended;
+    int *removed, *val;
 
-    int val = 15;
-    array_list_insert(array_list, 0, &val);
-    int hval = 155;
-    array_list_insert(array_list, 1, &hval);
+    array_list = array_list_create(5);
 
-    printf(
-        "0: %d\t1: %d\n",
-        *(int*) array_list_get(array_list, 0),
-        *(int*) array_list_get(array_list, 1)
-    );
+    /* Insertion */
+    for (int i = 0; i < 5; ++i) {
+        if ((val = (int*) malloc(sizeof(int))) == NULL)
+            return -1;
+        *val = i;
 
-    array_list_append(array_list, &val);
-    printf("2: %d\tsize: %ld\n", *(int*) array_list_get(array_list, 2), array_list->size);
-    array_list_append(array_list, &val);
-    printf("3: %d\tsize: %ld\n", *(int*) array_list_get(array_list, 3), array_list->size);
-    array_list_append(array_list, &val);
-    printf("4: %d\tsize: %ld\n", *(int*) array_list_get(array_list, 0), array_list->size);
+        insert_int(array_list, i, val);
+    }
 
+    /* Length */
+    printf("Array contains %u items.\n", array_list_length(array_list));
+
+    /* Get 1/2 */
+    for (int i = 0; i < 5; ++i)
+        printf("array_list[%u] = %d\n", i, *get_int(array_list, i));
+
+    /* Append */
+    is_appended = append_int(array_list, get_int(array_list, 4));
+    if (is_appended == -1) return -1;
+    printf("array_list[5] = %d\t(array was extended after append)\n",
+           *get_int(array_list, 5));
+
+    /* Is empty 1/2 */
+    printf("Is array empty: %u\n", array_list_is_empty(array_list));
+
+    /* remove */
+    printf("array_list[3] has been removed: %d\n",
+        *remove_int(array_list, 3));
+
+    /* pop */
+    printf("Popped element: %d\n", *pop_int(array_list));
+
+    for (int i = 0; i < 4; ++i)
+        printf("array_list[%u] = %d\n", i, *get_int(array_list, i));
+
+    /* Clear */
     array_list_clear(array_list);
-    array_list_append(array_list, &val);
-    printf("%d %ld\n", array_list->length, array_list->size);
-    int sval = 75;
-    array_list_append(array_list, &sval);
-    printf("%d %ld\n", array_list->length, array_list->size);
-    int tval = 115155;
-    array_list_append(array_list, &tval);
-    printf("%d %ld\n", array_list->length, array_list->size);
 
-    printf(
-        "0: %d\t1: %d\t2: %d\n",
-        *(int*) array_list_get(array_list, 0),
-        *(int*) array_list_get(array_list, 1),
-        *(int*) array_list_get(array_list, 2)
-    );
+    /* Get 2/2 */
+    printf("get_int(0) == NULL: %u\t(array has been cleared)\n",
+           get_int(array_list, 0) == NULL);
 
-    void* third = array_list_pop(array_list);
-    printf(
-        "0: %d\t1: %d\t2 (popped): %d\n",
-        *(int*) array_list_get(array_list, 0),
-        *(int*) array_list_get(array_list, 1),
-        *(int*) third
-    );
+    /* Is empty 2/2 */
+    printf("Is array empty: %u\t(array has been cleared)\n",
+           array_list_is_empty(array_list));
 
     return 0;
 }

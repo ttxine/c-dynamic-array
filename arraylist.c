@@ -55,7 +55,7 @@ void*
 array_list_pop(ArrayList* array_list) {
     void* entry;
 
-    if (array_list->length < 1) return NULL;
+    if (array_list->length == 0) return NULL;
 
     entry = array_list->entries[--array_list->length];
     array_list->entries[array_list->length] = NULL;
@@ -98,7 +98,7 @@ array_list_length(ArrayList* array_list) {
 
 int
 array_list_is_empty(ArrayList* array_list) {
-    return array_list->length > 0;
+    return array_list->length == 0;
 }
 
 static int
