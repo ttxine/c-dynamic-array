@@ -2,16 +2,16 @@
 #include <stdlib.h>
 #include "arraylist.h"
 
-DEFINE_ARRAY_LIST_APPEND(append_int, int);
 DEFINE_ARRAY_LIST_GET(get_int, int);
-DEFINE_ARRAY_LIST_INSERT(insert_int, int);
 DEFINE_ARRAY_LIST_POP(pop_int, int);
+DEFINE_ARRAY_LIST_INSERT(insert_int, int);
+DEFINE_ARRAY_LIST_APPEND(append_int, int);
 DEFINE_ARRAY_LIST_REMOVE(remove_int, int);
 
 int main() {
     ArrayList* array_list;
     int is_appended;
-    int *removed, *val;
+    int *val;
 
     array_list = array_list_create(5);
 
